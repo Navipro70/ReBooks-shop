@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    height: 10vh;
+    font-size: 24px;
+    background-color: aquamarine;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.header a {
+    text-decoration: none;
+    color: white;
+    transition: .2s linear;
+}
+
+.header a:hover {
+    color: antiquewhite;
+}

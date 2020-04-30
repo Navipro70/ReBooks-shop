@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {Route} from 'react-router-dom';
+import {BooksPage} from "./components/BooksPage/BooksPage";
+import { Header } from './components/Header/Header';
+import {OrderPage} from "./components/OrderPage/OrderPage";
+import {CartPage} from "./components/CartPage/CartPage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="container">
+            <Header/>
+            <Route exact path="/" render={() => <BooksPage/>}/>
+            <Route path="/order" render={() => <OrderPage/>}/>
+            <Route path="/cart" render={() => <CartPage/>}/>
+        </div>
+    );
 }
 
 export default App;
