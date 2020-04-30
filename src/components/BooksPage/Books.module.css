@@ -1,0 +1,21 @@
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 25px;
+}
+
+.books img {
+    width: 25vw;
+    min-width: 320px;
+}
+
+.information {
+    width: 320px;
+}
+
+.showMore {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
