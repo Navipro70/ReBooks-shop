@@ -3,7 +3,12 @@ import classes from "./Books.module.css";
 import {TBook} from "../../redux/books-reducer";
 import {Button} from "@material-ui/core";
 
-export const BookItem: FC<TBook> = ({author, id, image, price, bookName, currency, shortDescription}) => {
+type PropsType = {
+    book: TBook
+}
+
+export const BookItem: FC<PropsType> = ({book}) => {
+    const {author, image, price, bookName, currency, shortDescription} = book;
     return (
         <div className={classes.books}>
             <div className={classes.image}>

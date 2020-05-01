@@ -1,0 +1,15 @@
+.sort {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: flex-end;
+    margin-right: 16%;
+}
+
+.sort svg {
+    margin-left: 4px;
+}
+
+.sort svg:hover {
+    cursor: pointer;
+}
