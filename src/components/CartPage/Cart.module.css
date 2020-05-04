@@ -1,0 +1,27 @@
+
+@media (min-width: 640px) {
+    .mainCart {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mainCart div:nth-child(1) {
+        flex: 2;
+    }
+    .mainCart div:nth-child(2) {
+        flex: 1;
+    }
+}
+
+.cartForm {
+    text-align: center;
+    border: 2px solid #9123f1;
+    border-radius: 10px ;
+    padding: 20px;
+    height: 236px;
+}
+
+.cartForm a {
+    text-decoration: none;
+}
+

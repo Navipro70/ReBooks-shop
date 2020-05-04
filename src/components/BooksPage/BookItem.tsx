@@ -5,10 +5,14 @@ import {Button} from "@material-ui/core";
 
 type PropsType = {
     book: TBook
+    addBookToOrder: (book: TBook) => void
 }
 
-export const BookItem: FC<PropsType> = ({book}) => {
+export const BookItem: FC<PropsType> = ({book, addBookToOrder}) => {
     const {author, image, price, bookName, currency, shortDescription} = book;
+    const addToCartHandler = () => {
+        addBookToOrder({...book, count: 1})
+    };
     return (
         <div className={classes.books}>
             <div className={classes.image}>
@@ -21,7 +25,9 @@ export const BookItem: FC<PropsType> = ({book}) => {
                 <div>
                     <p>Short description: {`${shortDescription.slice(0, 300)}...`}</p>
                 </div>
-                <Button variant="contained" color="primary">Add to cart</Button>
+                <Button variant="contained" color="primary" onClick={addToCartHandler}>
+                    Add to cart
+                </Button>
             </div>
         </ div>
     )

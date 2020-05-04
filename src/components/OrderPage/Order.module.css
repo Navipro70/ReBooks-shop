@@ -1,0 +1,79 @@
+.orderItem {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+    border-right: 2px solid slategray;
+    border-left: 2px solid slategray;
+    border-top: 2px solid slategray;
+}
+
+.orderItem div {
+    margin-left: 10px;
+}
+
+.orderItem p {
+    margin-left: 15px;
+}
+
+
+.orderItem img {
+    height: 70px;
+}
+
+.orderInfo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 2px solid slategray;
+    border-bottom: none;
+}
+
+.orderInfo h4 {
+    margin-left: 20px;
+}
+
+.allOrders {
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid slategray;
+}
+
+.menu h4 {
+    margin-left: 20px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: slategray;
+    transition: .2s linear;
+}
+
+.menu a:hover {
+    color: darkgray;
+}
+
+.orderWithoutItems {
+    text-align: center;
+}
+
+.orderWithoutItems a {
+    text-decoration: none;
+    color: slategray;
+    transition: .2s linear;
+}
+
+.orderWithoutItems a:hover {
+    cursor: pointer;
+    color: darkgray;
+}
+
+.orderWithoutItems img {
+    margin-top: 50px;
+    width: 300px;
+}

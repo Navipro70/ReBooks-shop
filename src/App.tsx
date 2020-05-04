@@ -3,7 +3,7 @@ import "./App.css";
 import {Route, Switch} from 'react-router-dom';
 import BooksPage from "./components/BooksPage/BooksPage";
 import {Header} from './components/Header/Header';
-import {OrderPage} from "./components/OrderPage/OrderPage";
+import OrderPage from "./components/OrderPage/OrderPage";
 import {CartPage} from "./components/CartPage/CartPage";
 
 function App() {

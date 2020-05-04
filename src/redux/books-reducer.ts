@@ -42,6 +42,7 @@ export type TBook = {
     price: number,
     currency: string,
     shortDescription: string
+    count?: number
 }
 
 export const booksActions = {

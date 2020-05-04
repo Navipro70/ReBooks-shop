@@ -1,9 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware from "redux-thunk"
 import {booksReducer} from "./books-reducer";
+import {orderReducer} from "./order-reducer";
 
 let reducers = combineReducers({
-    booksPage: booksReducer
+    booksPage: booksReducer,
+    orderPage: orderReducer
 });
 
 type ReducersType = typeof reducers

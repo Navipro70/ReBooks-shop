@@ -8,6 +8,7 @@ import {BookItem} from "./BookItem";
 import {Preloader} from "../CommonComponents/Preloader";
 import {Button} from "@material-ui/core";
 import {Sort} from "../CommonComponents/Sort";
+import {orderActions} from "../../redux/order-reducer";
 
 type MapStatePropsType = {
     books: Array<TBook> | null
@@ -19,11 +20,12 @@ type MapDispatchPropsType = {
     thunkAddBooks: () => void
     sortToLowestPrice: () => void
     sortToHigherPrice: () => void
+    addBookToOrder: (book: TBook) => void
 }
 
 type PropsType = MapDispatchPropsType & MapStatePropsType
 
-const BooksPage: FC<PropsType> = ({books, thunkGetBooks, isFetching, thunkAddBooks, sortToLowestPrice, sortToHigherPrice}) => {
+const BooksPage: FC<PropsType> = ({books, thunkGetBooks, isFetching, thunkAddBooks, sortToLowestPrice, sortToHigherPrice, addBookToOrder}) => {
 
     useEffect(() => {
         thunkGetBooks()
@@ -35,7 +37,7 @@ const BooksPage: FC<PropsType> = ({books, thunkGetBooks, isFetching, thunkAddBoo
     return (
         <div>
             <Sort sortToHigh={sortToHigherPrice} sortToLow={sortToLowestPrice}/>
-            {books!.map(book => <BookItem key={book.id + Math.random()} book={book}/>)}
+            {books!.map(book => <BookItem key={book.id + Math.random()} book={book} addBookToOrder={addBookToOrder}/>)}
             {!isFetching && <div className={classes.showMore}>
                 <Button variant="contained" color="secondary" onClick={showMoreHandler}>Show more</Button>
             </div>}
@@ -54,6 +56,7 @@ export default compose<ComponentType>(
         thunkGetBooks,
         thunkAddBooks,
         sortToLowestPrice: booksActions.sortToLowestPrice,
-        sortToHigherPrice: booksActions.sortToHigherPrice
+        sortToHigherPrice: booksActions.sortToHigherPrice,
+        addBookToOrder: orderActions.addBookToOrder
     })
 )(BooksPage);
