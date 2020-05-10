@@ -26,7 +26,7 @@ const updateBooksInOrder = (state: TState, book: TBook): TState => {
         const newBooksInOrder = [...state.booksInOrder];
         newBooksInOrder[findIndex].count! += book.count!;
         return {
-            ...state, booksInOrder: newBooksInOrder,
+            booksInOrder: newBooksInOrder,
             totalCount: newBooksInOrder.reduce(booksCountReduce, 0),
             commonPrice: newBooksInOrder.reduce(booksPriceReduce, 0)
         }
@@ -40,21 +40,29 @@ export const orderReducer = (state: TState = initialState, action: ActionType): 
         case "REMOVE_CERTAIN_BOOKS_FROM_ORDER":
             const changedBooksInOrder = state.booksInOrder.filter(book => book.id !== action.id);
             return {
-                ...state,
                 booksInOrder: changedBooksInOrder,
                 totalCount: changedBooksInOrder.reduce(booksCountReduce, 0),
                 commonPrice: changedBooksInOrder.reduce(booksPriceReduce, 0)
             };
         case "REMOVE_ONE_BOOK_FROM_ORDER":
-            const booksWithoutOne = (state.booksInOrder as Array<TBook>).map((book) => {
+            const booksWithoutOne = (state.booksInOrder as Array<TBook>).map(book => {
                 if (book.id === action.id) book.count! -= 1;
                 return book
             }).filter(item => item.count !== 0);
             return {
-                ...state,
                 booksInOrder: booksWithoutOne,
                 totalCount: booksWithoutOne.reduce(booksCountReduce, 0),
                 commonPrice: booksWithoutOne.reduce(booksPriceReduce, 0)
+            };
+        case "ADD_ONE_BOOK_TO_ORDER":
+            const newBooksOneMore = (state.booksInOrder as Array<TBook>).map(book => {
+                if (book.id === action.id) book.count! += 1;
+                return book
+            });
+            return {
+                booksInOrder: newBooksOneMore,
+                totalCount: newBooksOneMore.reduce(booksCountReduce, 0),
+                commonPrice: newBooksOneMore.reduce(booksPriceReduce, 0)
             };
         default:
             return {

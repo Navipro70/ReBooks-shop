@@ -13,7 +13,7 @@ type PropsType = {
     removeBook: (id: number) => void
 }
 
-export const OrderItem: FC<PropsType> = ({book, removeCertainBooks, removeBook}) => {
+export const OrderItem: FC<PropsType> = ({book, removeCertainBooks, removeBook, addBook}) => {
     return (
         <div className={classes.orderItem}>
             <div>
@@ -29,7 +29,7 @@ export const OrderItem: FC<PropsType> = ({book, removeCertainBooks, removeBook})
                 <IconButton onClick={removeBook.bind(null, book.id)}>
                     <RemoveCircleIcon/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={addBook.bind(null, book.id)}>
                     <AddCircleOutlineRoundedIcon/>
                 </IconButton>
             </div>
