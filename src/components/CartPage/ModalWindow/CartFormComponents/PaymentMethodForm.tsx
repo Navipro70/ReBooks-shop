@@ -10,7 +10,11 @@ type TProps = {
     commonPrice: number
 }
 
-const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleChange, commonPrice}) => {
+const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleChange, commonPrice, setWhatShowing, addPaymentMethod}) => {
+    const onBackHandler = () => {
+        addPaymentMethod(values.paymentMethod);
+        setWhatShowing(1);
+    };
     return (
         <Form>
             <RadioGroup name="paymentMethod" value={values.paymentMethod} onChange={handleChange}>
@@ -18,8 +22,9 @@ const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handl
                 <FormControlLabel value="masterCard" control={<Radio/>} label="MasterCard"/>
                 <FormControlLabel value="visa" control={<Radio/>} label="Visa"/>
             </RadioGroup>
-            <div>
-                To pay: {commonPrice} USD
+            <div>To pay: {commonPrice} USD</div>
+            <div className={classes.first_button}>
+                <Button onClick={onBackHandler} variant="contained" color="secondary">Back</Button>
             </div>
             <div className={classes.second_button}>
                 <Button type="submit" color="primary" variant="contained">Submit</Button>

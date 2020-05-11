@@ -10,33 +10,43 @@ import {TMapDispatchProps} from "../CartForm";
 import {TRootProps} from "../ModalWindow";
 import {ErrorMessage} from "../../../CommonComponents/ErrorMessage";
 
-type TProps = Pick<TMapDispatchProps, 'addCreditCardInformation'> & Pick<TRootProps, 'toggleModal'>
+type TProps = Pick<TMapDispatchProps, 'addCreditCardInformation'> & Omit<TRootProps, 'whatShowing'> & TCartFormik
 
-const CreditCardForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleChange, errors, touched, setFieldValue, handleBlur, setFieldTouched}) => {
+type TCartFormik = {
+    number: string,
+    name: string,
+    expiry: string,
+    cvc: string,
+};
+
+const CreditCardForm:
+    FC<TProps & FormikProps<TCartFormik>> = ({
+                                                 values, handleChange, errors, touched, setFieldValue,
+                                                 handleBlur, setFieldTouched, addCreditCardInformation,
+                                                 setWhatShowing
+                                             }) => {
+    const {number, name, expiry, cvc} = values;
     const [focus, setFocus] = useState(undefined);
     const handleInputFocus = (fieldName: string) => (e: any) => {
         setFocus(e.target.name);
         setFieldTouched(fieldName, false)
+    };
+    const onBackHandler = () => {
+        addCreditCardInformation(number, name, expiry, cvc);
+        setWhatShowing(2)
     };
     const {number: numberError, name: nameError, expiry: expiryError, cvc: cvcError} = errors;
     const {number: numberTouched, name: nameTouched, expiry: expiryTouched, cvc: cvcTouched} = touched;
 
     return (
         <Form className={classes.modal__form}>
-            <Cards
-                focused={focus}
-                cvc={values.cvc}
-                expiry={values.expiry}
-                name={values.name}
-                number={values.number}
-                issuer="mastercard"
-            />
+            <Cards focused={focus} cvc={cvc} expiry={expiry} name={name} number={number} issuer="mastercard"/>
             <div className={classes.contacts_block}>
                 <Input
                     onChange={onNumberFieldChange(setFieldValue, 'number', false, 16)}
                     name="number"
                     type="tel"
-                    value={values.number}
+                    value={number}
                     placeholder="Card number"
                     error={Boolean(numberTouched && numberError)}
                     onFocus={handleInputFocus('number')}
@@ -46,7 +56,7 @@ const CreditCardForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleCh
                 <Input
                     onChange={handleChange}
                     name="name"
-                    value={values.name}
+                    value={name}
                     placeholder="Your Name"
                     error={Boolean(nameTouched && nameError)}
                     onFocus={handleInputFocus('name')}
@@ -57,7 +67,7 @@ const CreditCardForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleCh
                     onChange={onNumberFieldChange(setFieldValue, 'expiry', false, 4)}
                     name="expiry"
                     type="tel"
-                    value={values.expiry}
+                    value={expiry}
                     placeholder="Expiration date"
                     error={Boolean(expiryTouched && expiryError)}
                     onFocus={handleInputFocus('expiry')}
@@ -68,13 +78,16 @@ const CreditCardForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleCh
                     onChange={onNumberFieldChange(setFieldValue, 'cvc', false, 3)}
                     name="cvc"
                     type="tel"
-                    value={values.cvc}
+                    value={cvc}
                     placeholder="CVC/CV2"
                     error={Boolean(cvcTouched && cvcError)}
                     onFocus={handleInputFocus('cvc')}
                     onBlur={handleBlur}
                 />
                 <ErrorMessage error={cvcError} touched={cvcTouched}/>
+            </div>
+            <div className={classes.first_button}>
+                <Button onClick={onBackHandler} variant="contained" color="secondary">Back</Button>
             </div>
             <div className={classes.second_button}>
                 <Button type="submit" color="primary" variant="contained">Submit</Button>
@@ -83,17 +96,13 @@ const CreditCardForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleCh
     )
 };
 
-const cartFormikData = {
-    number: "",
-    name: "",
-    expiry: "",
-    cvc: "",
-};
-
-type TCartFormik = typeof cartFormikData;
-
 export const CreditCardFormik = withFormik<TProps, TCartFormik>({
-    mapPropsToValues: () => cartFormikData,
+    mapPropsToValues: ({number, name, expiry, cvc}) => ({
+        number: number,
+        name: name,
+        expiry: expiry,
+        cvc: cvc
+    }),
     validationSchema: Yup.object().shape({
         number: Yup.string()
             .min(16, 'Card number must be 16 numbers (without spaces)')

@@ -22,7 +22,9 @@ const CartPage: FC<TMapStateProps> = ({commonPrice}) => {
                 <Button variant='contained'>Continue shopping</Button>
             </NavLink>
             {isModalOpen &&
-            <ModalWindow whatShowing={whatShowing} setWhatShowing={setWhatShowing} toggleModal={toggleModal}/>}
+            <ModalWindow whatShowing={whatShowing}
+                         setWhatShowing={setWhatShowing}
+                         toggleModal={toggleModal}/>}
         </div>
     )
 };

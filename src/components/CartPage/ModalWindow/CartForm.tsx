@@ -19,17 +19,9 @@ export type TMapDispatchProps = {
 type TAllProps = TRootProps & TMapStateProps & TMapDispatchProps
 
 const CartForm: FC<TAllProps> = ({
-                                     whatShowing,
-                                     setWhatShowing,
-                                     email,
-                                     address,
-                                     phone,
-                                     addContactInformation,
-                                     paymentMethod,
-                                     addPaymentMethod,
-                                     addCreditCardInformation,
-                                     toggleModal,
-                                     commonPrice
+                                     whatShowing, setWhatShowing, email, address, phone, paymentMethod,
+                                     number, name, expiry, cvc, addContactInformation, addPaymentMethod,
+                                     addCreditCardInformation, toggleModal, commonPrice
                                  }) => (
     <div>
         {whatShowing === 1 && <ContactsFormik email={email}
@@ -41,8 +33,13 @@ const CartForm: FC<TAllProps> = ({
                                                    paymentMethod={paymentMethod}
                                                    addPaymentMethod={addPaymentMethod}
                                                    commonPrice={commonPrice}/>}
-        {whatShowing === 3 &&
-        <CreditCardFormik addCreditCardInformation={addCreditCardInformation} toggleModal={toggleModal}/>}
+        {whatShowing === 3 && <CreditCardFormik addCreditCardInformation={addCreditCardInformation}
+                                                toggleModal={toggleModal}
+                                                number={number}
+                                                name={name}
+                                                expiry={expiry}
+                                                cvc={cvc}
+                                                setWhatShowing={setWhatShowing}/>}
     </div>
 );
 
