@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import classes from "./Modal.module.css";
 import {Button} from "@material-ui/core";
-import {CartForm} from "./CartForm";
+import CartForm from "./CartForm";
 
 type TProps = {
     toggleModal: (isOpen: boolean) => void
