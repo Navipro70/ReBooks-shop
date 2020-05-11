@@ -1,4 +1,4 @@
-export const onNumberFieldChange = (setFieldValue: (field: string, value: any,) => void, inputName: string, phone?: boolean) => (e: any) => {
+export const onNumberFieldChange = (setFieldValue: (field: string, value: any,) => void, inputName: string, phone?: boolean, slicer?: number) => (e: any) => {
     e.preventDefault();
     const {value} = e.target;
     const regex = /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
@@ -6,7 +6,10 @@ export const onNumberFieldChange = (setFieldValue: (field: string, value: any,) 
         if (value.length === 1) setFieldValue(inputName, '+' + value.slice(0, 13));
         setFieldValue(inputName, value.slice(0, 13));
     }
-    if (!value || regex.test(value.toString())) {
+    else if (slicer && (!value || regex.test(value.slice(slicer).toString()))){
+        setFieldValue(inputName, value.slice(0, slicer ));
+    }
+    else if (!value || regex.test(value.toString())) {
         setFieldValue(inputName, value);
     }
 };

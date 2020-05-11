@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {TBook} from "../../redux/books-reducer";
 import {AppStateType} from "../../redux/store";
 import {OrderItem} from "./OrderItem";
-import {OrderWithoutItems} from "./OrderWuthoutItems";
+import {OrderWithoutItems} from "../CommonComponents/OrderWuthoutItems";
 import {NavLink} from "react-router-dom";
 import {orderActions} from "../../redux/order-reducer";
 

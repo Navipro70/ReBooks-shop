@@ -5,6 +5,7 @@ import {withFormik, FormikProps, Form} from "formik";
 import 'react-credit-cards/es/styles-compiled.css';
 import * as Yup from "yup";
 import {onNumberFieldChange, validatePhoneCodes} from "../../../../utils";
+import {ErrorMessage} from "../../../CommonComponents/ErrorMessage";
 
 type TContactsFormik = {
     email: string,
@@ -18,6 +19,8 @@ type TProps = {
 }
 
 const ContactsForm: FC<TProps & FormikProps<TContactsFormik>> = ({values, handleChange, errors, touched, handleBlur, setFieldValue, setFieldTouched}) => {
+    const {email: emailTouched, address: addressTouched, phone: phoneTouched} = touched;
+    const {email: emailError, address: addressError, phone: phoneError} = errors;
     return (
         <Form className={classes.modal__form}>
             <div className={classes.contacts_block}>
@@ -25,31 +28,31 @@ const ContactsForm: FC<TProps & FormikProps<TContactsFormik>> = ({values, handle
                 <Input onChange={handleChange}
                        name="email"
                        value={values.email}
-                       error={(touched.email && errors.email) as boolean}
+                       error={Boolean(emailTouched && emailError)}
                        placeholder="Email"
                        onFocus={() => setFieldTouched('email', false)}
                        onBlur={handleBlur}
                 />
-                {touched.email && errors.email && <p style={{color: "red"}}>{errors.email}</p>}
+                <ErrorMessage touched={emailTouched} error={emailError}/>
                 <Input onChange={handleChange}
                        name="address"
                        value={values.address}
-                       error={(touched.address && errors.address) as boolean}
+                       error={Boolean(addressTouched && addressError)}
                        placeholder="Address"
                        onFocus={() => setFieldTouched('address', false)}
                        onBlur={handleBlur}
                 />
-                {touched.address && errors.address && <p style={{color: "red"}}>{errors.address}</p>}
+                <ErrorMessage touched={addressTouched} error={addressError}/>
                 <Input
                     onChange={onNumberFieldChange(setFieldValue, 'phone', true)} //Use custom util with regex to allow only numbers in field
                     name="phone"
                     value={values.phone}
-                    error={(touched.phone && errors.phone) as boolean}
+                    error={Boolean(phoneTouched && phoneError)}
                     placeholder="Phone"
                     onFocus={() => setFieldTouched('phone', false)}
                     onBlur={handleBlur}
                 />
-                {touched.phone && errors.phone && <p style={{color: "red"}}>{errors.phone}</p>}
+                <ErrorMessage touched={phoneTouched} error={phoneError}/>
             </div>
             <div className={classes.second_button}>
                 <Button type="submit" color="primary" variant="contained">Submit</Button>

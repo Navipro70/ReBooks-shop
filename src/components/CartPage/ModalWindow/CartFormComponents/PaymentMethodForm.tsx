@@ -5,9 +5,12 @@ import classes from "../Modal.module.css";
 
 type TProps = {
     setWhatShowing: (whatShowing: 1 | 2 | 3) => void
+    addPaymentMethod: (paymentMethod: string) => void
+    paymentMethod: string
+    commonPrice: number
 }
 
-const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleChange}) => {
+const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handleChange, commonPrice}) => {
     return (
         <Form>
             <RadioGroup name="paymentMethod" value={values.paymentMethod} onChange={handleChange}>
@@ -15,6 +18,9 @@ const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handl
                 <FormControlLabel value="masterCard" control={<Radio/>} label="MasterCard"/>
                 <FormControlLabel value="visa" control={<Radio/>} label="Visa"/>
             </RadioGroup>
+            <div>
+                To pay: {commonPrice} USD
+            </div>
             <div className={classes.second_button}>
                 <Button type="submit" color="primary" variant="contained">Submit</Button>
             </div>
@@ -22,15 +28,14 @@ const PaymentMethodForm: FC<TProps & FormikProps<TCartFormik>> = ({values, handl
     )
 };
 
-const cartFormikData = {
-    paymentMethod: "alfaBank"
-};
-
-type TCartFormik = typeof cartFormikData;
+type TCartFormik = Pick<TProps, 'paymentMethod'>;
 
 export const PaymentMethodFormik = withFormik<TProps, TCartFormik>({
-    mapPropsToValues: () => cartFormikData,
+    mapPropsToValues: ({paymentMethod}) => ({
+        paymentMethod
+    }),
     handleSubmit: (values, FormikBag) => {
+        FormikBag.props.addPaymentMethod(values.paymentMethod);
         FormikBag.props.setWhatShowing(3);
         console.log(values)
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import classes from "./Order.module.css";
+import classes from "../OrderPage/Order.module.css";
 
 export const OrderWithoutItems = () => {
     return (
