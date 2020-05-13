@@ -1,8 +1,11 @@
 import {TBook} from "./books-reducer";
-import {InferActionsType} from "./store";
+import {AppStateType, InferActionsType} from "./store";
+import {ThunkAction} from "redux-thunk";
+import {cartActions, TActionsCart} from "./cart-reducer";
 
 const initialState = {
     booksInOrder: [] as [] | Array<TBook>,
+    previousOrders: [] as Array<Array<TBook>>,
     commonPrice: 0,
     totalCount: 0
 };
@@ -26,6 +29,7 @@ const updateBooksInOrder = (state: TState, book: TBook): TState => {
         const newBooksInOrder = [...state.booksInOrder];
         newBooksInOrder[findIndex].count! += book.count!;
         return {
+            ...state,
             booksInOrder: newBooksInOrder,
             totalCount: newBooksInOrder.reduce(booksCountReduce, 0),
             commonPrice: newBooksInOrder.reduce(booksPriceReduce, 0)
@@ -40,6 +44,7 @@ export const orderReducer = (state: TState = initialState, action: ActionType): 
         case "REMOVE_CERTAIN_BOOKS_FROM_ORDER":
             const changedBooksInOrder = state.booksInOrder.filter(book => book.id !== action.id);
             return {
+                ...state,
                 booksInOrder: changedBooksInOrder,
                 totalCount: changedBooksInOrder.reduce(booksCountReduce, 0),
                 commonPrice: changedBooksInOrder.reduce(booksPriceReduce, 0)
@@ -50,6 +55,7 @@ export const orderReducer = (state: TState = initialState, action: ActionType): 
                 return book
             }).filter(item => item.count !== 0);
             return {
+                ...state,
                 booksInOrder: booksWithoutOne,
                 totalCount: booksWithoutOne.reduce(booksCountReduce, 0),
                 commonPrice: booksWithoutOne.reduce(booksPriceReduce, 0)
@@ -60,9 +66,17 @@ export const orderReducer = (state: TState = initialState, action: ActionType): 
                 return book
             });
             return {
+                ...state,
                 booksInOrder: newBooksOneMore,
                 totalCount: newBooksOneMore.reduce(booksCountReduce, 0),
                 commonPrice: newBooksOneMore.reduce(booksPriceReduce, 0)
+            };
+        case "SUBMIT_ORDER":
+            return {
+                previousOrders: [...state.previousOrders, [...state.booksInOrder]],
+                booksInOrder: [],
+                commonPrice: 0,
+                totalCount: 0
             };
         default:
             return {
@@ -87,5 +101,15 @@ export const orderActions = {
     addOneBookToOrder: (id: number) => ({
         type: 'ADD_ONE_BOOK_TO_ORDER',
         id
+    } as const),
+    submitOrder: () => ({
+        type: 'SUBMIT_ORDER',
     } as const)
+};
+
+type ThunkActionType = ThunkAction<void, AppStateType, unknown, ActionType | TActionsCart>
+
+export const thunkSubmitOrder = (): ThunkActionType => async (dispatch) => {
+    dispatch(orderActions.submitOrder());
+    dispatch(cartActions.resetForm());
 };

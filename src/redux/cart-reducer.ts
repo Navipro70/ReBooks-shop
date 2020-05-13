@@ -11,9 +11,11 @@ export const initialState = {
     cvc: ""
 };
 
-type ActionType = InferActionsType<typeof cartActions>
+export type CartFormType = typeof initialState
 
-export const cartReducer = (state: typeof initialState = initialState, action: ActionType) => {
+export type TActionsCart = InferActionsType<typeof cartActions>
+
+export const cartReducer = (state: CartFormType = initialState, action: TActionsCart) => {
     switch (action.type) {
         case "ADD_CONTACT_INFORMATION":
             return {
@@ -35,6 +37,10 @@ export const cartReducer = (state: typeof initialState = initialState, action: A
                 expiry: action.expiry,
                 cvc: action.cvc
             };
+            case "RESET_FORM":
+                return {
+                    ...initialState
+                };
         default:
             return {
                 ...state
@@ -59,5 +65,8 @@ export const cartActions = {
         name,
         expiry,
         cvc
+    } as const),
+    resetForm: () => ({
+        type: 'RESET_FORM',
     } as const)
 };

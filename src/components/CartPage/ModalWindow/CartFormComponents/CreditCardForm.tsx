@@ -10,7 +10,10 @@ import {TMapDispatchProps} from "../CartForm";
 import {TRootProps} from "../ModalWindow";
 import {ErrorMessage} from "../../../CommonComponents/ErrorMessage";
 
-type TProps = Pick<TMapDispatchProps, 'addCreditCardInformation'> & Omit<TRootProps, 'whatShowing'> & TCartFormik
+type TProps =
+    Pick<TMapDispatchProps, 'addCreditCardInformation' | 'thunkSubmitOrder'>
+    & Omit<TRootProps, 'whatShowing'>
+    & TCartFormik
 
 type TCartFormik = {
     number: string,
@@ -121,7 +124,7 @@ export const CreditCardFormik = withFormik<TProps, TCartFormik>({
     handleSubmit: (values, FormikBag) => {
         const {number, name, expiry, cvc} = values;
         FormikBag.props.addCreditCardInformation(number, name, expiry, cvc);
-        FormikBag.props.toggleModal(false)
+        FormikBag.props.thunkSubmitOrder();
     }
 })
 (CreditCardForm);

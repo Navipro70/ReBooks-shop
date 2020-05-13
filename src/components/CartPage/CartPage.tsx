@@ -1,18 +1,17 @@
 import React, {useState, FC} from "react";
 import classes from "./Cart.module.css";
 import {Button} from "@material-ui/core";
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {ModalWindow} from "./ModalWindow/ModalWindow";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store";
-import {OrderWithoutItems} from "../CommonComponents/OrderWuthoutItems";
 
 const CartPage: FC<TMapStateProps> = ({commonPrice}) => {
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [whatShowing, setWhatShowing] = useState<1 | 2 | 3>(1);
     const toggleModal = (isOpen: boolean) => setModalOpen(isOpen);
-    if (commonPrice === 0) return <OrderWithoutItems/>;
+    if (commonPrice === 0) return <Redirect to="/order/previousOrders"/>;
     return (
         <div className={classes.cartForm}>
             <Button variant='contained' onClick={toggleModal.bind(null, true)}>Go to clearance</Button>

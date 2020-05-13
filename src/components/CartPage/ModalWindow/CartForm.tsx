@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../../redux/store";
 import {cartActions, initialState} from "../../../redux/cart-reducer";
 import {TRootProps} from "./ModalWindow";
+import {thunkSubmitOrder} from "../../../redux/order-reducer";
 
 type TMapStateProps = typeof initialState & { commonPrice: number }
 
@@ -14,6 +15,7 @@ export type TMapDispatchProps = {
     addContactInformation: (email: string, address: string, phone: string) => void,
     addPaymentMethod: (paymentMethod: string) => void,
     addCreditCardInformation: (number: string, name: string, expiry: string, cvc: string) => void
+    thunkSubmitOrder: () => void
 }
 
 type TAllProps = TRootProps & TMapStateProps & TMapDispatchProps
@@ -21,7 +23,7 @@ type TAllProps = TRootProps & TMapStateProps & TMapDispatchProps
 const CartForm: FC<TAllProps> = ({
                                      whatShowing, setWhatShowing, email, address, phone, paymentMethod,
                                      number, name, expiry, cvc, addContactInformation, addPaymentMethod,
-                                     addCreditCardInformation, toggleModal, commonPrice
+                                     addCreditCardInformation, toggleModal, commonPrice, thunkSubmitOrder
                                  }) => (
     <div>
         {whatShowing === 1 && <ContactsFormik email={email}
@@ -39,7 +41,8 @@ const CartForm: FC<TAllProps> = ({
                                                 name={name}
                                                 expiry={expiry}
                                                 cvc={cvc}
-                                                setWhatShowing={setWhatShowing}/>}
+                                                setWhatShowing={setWhatShowing}
+                                                thunkSubmitOrder={thunkSubmitOrder}/>}
     </div>
 );
 
@@ -60,5 +63,6 @@ export default compose<ComponentType<TRootProps>>(
         addContactInformation: cartActions.addContactInformation,
         addPaymentMethod: cartActions.addPaymentMethod,
         addCreditCardInformation: cartActions.addCreditCardInformation,
+        thunkSubmitOrder
     } as TMapDispatchProps))
 )(CartForm)

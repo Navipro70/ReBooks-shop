@@ -9,6 +9,7 @@ export const OrderWithoutItems = () => {
            <h4>
                You dont have any books.
                <NavLink to="/"> Want buy something?</NavLink>
+               <NavLink to="order/previousOrders"> Or check your previous orders</NavLink>
            </h4>
         </div>
     );
